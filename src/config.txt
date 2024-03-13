@@ -1,0 +1,12 @@
+// Zero-indexed Use 2 for Wednesday  (0: Monday, 1: Tuesday, 2: Wednesday, ..., 6: Sunday)
+// Don't change if you just want to res for Wednesday
+DAYOFWEEK = 2
+
+// Use a timeslot string that partial matches against your prefered timeslot. Until they change the website,
+// the format of 'X:00 PM - X:00 PM' should be good. Don't change this value if you are fine with 8-9 PM
+TIMESLOT = "8:00 PM - 9:00 PM"
+
+// Put your username and password here
+USERNAME="fakeEmail"
+
+PASSWORD="fakePass"
