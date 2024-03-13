@@ -7,6 +7,6 @@ DAYOFWEEK = 2
 TIMESLOT = "8:00 PM - 9:00 PM"
 
 // Put your username and password here
-USERNAME="fakeEmail"
+USERNAME="fakeemail"
 
-PASSWORD="fakePass"
+PASSWORD="fakepass"

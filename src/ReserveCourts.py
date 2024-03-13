@@ -6,28 +6,24 @@ from ConfigParser import parse_config
 loginUrl = "https://northwestbadmintonclub.sites.zenplanner.com/login.cfm"
 
 
-
 def perform_login_and_res(page, username, password, day_of_week, timeslot):
 
-        formatted_date = generate_date_string_for_selected_weekday(day_of_week)
-        # Step 1: Attempt to login,
-        perform_login(page, username, password)
-        # Step 2: Attempt to go to Calendar
-        navigate_to_calendar(page)
-        # Step 3: Attempt to click on the correct time slot
-        find_and_click_timeslot(page, formatted_date, timeslot)
-        # Step 4: Attempt to Reserve slot
-        reserve_slot(page)
- 
-
-
+	formatted_date = generate_date_string_for_selected_weekday(day_of_week)
+	# Step 1: Attempt to login,
+	perform_login(page, username, password)
+	# Step 2: Attempt to go to Calendar
+	navigate_to_calendar(page)
+	# Step 3: Attempt to click on the correct time slot
+	find_and_click_timeslot(page, formatted_date, timeslot)
+	# Step 4: Attempt to Reserve slot
+	reserve_slot(page)
 
 
 def attempt_reserve_court():
-	
+
 	with sync_playwright() as p:
 		# Launch the browser
-		browser = p.chromium.launch()
+		browser = p.chromium.launch(headless=False)
 
 		# Create a new browser context
 		context = browser.new_context()
@@ -84,48 +80,48 @@ def perform_login(page, username, password):
 	page.screenshot(path="Step 1 Login Attempt.png")
 	print("Step 1 Login completed")
 
-def navigate_to_calendar(page):
-        page.click(".block >> text=Calendar")
-        page.screenshot(path="Step 2 Go To Calendar.png")
-        print("Step 2 Go to Calender/move to next page completed")
 
-        
+def navigate_to_calendar(page):
+	page.click(".block >> text=Calendar")
+	page.screenshot(path="Step 2 Go To Calendar.png")
+	print("Step 2 Go to Calender/move to next page completed")
+
 
 def find_and_click_timeslot(page, dateString, timeslotString):
 
-        print(timeslotString)
-        print(f"div[date='{dateString}']")
-        print(f'div:has-text("{timeslotString}")')
-        try: 
-                container = page.locator(f"div[date='{dateString}']")
-                container.wait_for(timeout = 5000)
-        except Exception as e:
-                print(f"Expected Exception occurred because timeslot not on page, will navigate to next one: {str(e)}")
-                
-                # if we can't find it then we need to move to next page since it's not present currently
-                print(container)
-                nextPageIcon = page.locator('i.icon-chevron-right')
-                nextPageIcon.click()
-                page.screenshot(path="Step 2.5 Click Next Page.png")
-                container = page.locator(f"div[date='{dateString}']")
-                container.wait_for(timeout = 5000)
+	print(timeslotString)
+	print(f"div[date='{dateString}']")
+	print(f'div:has-text("{timeslotString}")')
+	try:
+		container = page.locator(f"div[date='{dateString}']")
+		container.wait_for(timeout=5000)
+	except Exception as e:
+		print(
+			f"Expected Exception occurred because timeslot not on page, will navigate to next one: {str(e)}"
+		)
 
-        # Find elements with text containing "8:00 PM - 9:00 PM"
-        time_slot = container.locator(f'div:has-text("{timeslotString}")').nth(1)
-        time_slot.click()
+		# if we can't find it then we need to move to next page since it's not present currently
+		print(container)
+		nextPageIcon = page.locator("i.icon-chevron-right")
+		nextPageIcon.click()
+		page.screenshot(path="Step 2.5 Click Next Page.png")
+		container = page.locator(f"div[date='{dateString}']")
+		container.wait_for(timeout=5000)
 
-        page.screenshot(path="Step 3 Click on Timeslot.png")
-        print("Step 3 Click on timeslot completed")
+	# Find elements with text containing "8:00 PM - 9:00 PM"
+	time_slot = container.locator(f'div:has-text("{timeslotString}")').nth(1)
+	time_slot.click()
+
+	page.screenshot(path="Step 3 Click on Timeslot.png")
+	print("Step 3 Click on timeslot completed")
+
 
 def reserve_slot(page):
-        reserve_button = page.locator('a:has-text("Reserve")')
-        reserve_button.click()
-        page.screenshot(path="Step 4 Click Reserve.png")
-        print("Step 4 Clicked on Reserve completed")
+	reserve_button = page.locator('a:has-text("Reserve")')
+	reserve_button.click()
+	page.screenshot(path="Step 4 Click Reserve.png")
+	print("Step 4 Clicked on Reserve completed")
 
-
-
-        
 
 if __name__ == "__main__":
 	attempt_reserve_court()
