@@ -34,7 +34,10 @@ Run `python ReserveCourts.py` and check to see if it attempts to reserve the cor
 All you need to do to use BAAS is just run `python Scheduler.py`. That's it. As long as you keep it running, it will schedule itself to sign you up for your preferred timeslot on 
 Saturday morning when reservations open to ensure that we keep our slots! 
 
+Screenshots will be taken to monitor the progress of the App in the src folder. 
+
 ### Demo: 
+https://drive.google.com/file/d/1i4CzX5Ar4ekHA3GhQfsFE3Aa59kyfBh1/view?usp=drive_link
 
 
 ```
